@@ -106,17 +106,23 @@ function minimax(b, depth, isMax) {
 }
 
 function findBestMove() {
+  const emptyIndices = board.map((v, i) => v === "" ? i : null).filter(i => i !== null);
+
+  // 20% chance to make a random move
+  if (Math.random() < 0.2) {
+    return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  }
+
+  // 80% chance to play optimally
   let bestVal = -Infinity;
   let bestMove = -1;
-  for (let i = 0; i < 9; i++) {
-    if (!board[i]) {
-      board[i] = "O";
-      let moveVal = minimax(board, 0, false);
-      board[i] = "";
-      if (moveVal > bestVal) {
-        bestMove = i;
-        bestVal = moveVal;
-      }
+  for (let i of emptyIndices) {
+    board[i] = "O";
+    let moveVal = minimax(board, 0, false);
+    board[i] = "";
+    if (moveVal > bestVal) {
+      bestMove = i;
+      bestVal = moveVal;
     }
   }
   return bestMove;
