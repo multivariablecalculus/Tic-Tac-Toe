@@ -74,6 +74,10 @@
       font-size: 1rem;
       margin-top: 6px;
     }
+    .mode-select label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -83,13 +87,23 @@
     <p id="status"></p>
     <button onclick="resetGame()">Restart</button>
   </div>
+
   <div class="mode-select">
     <label for="mode">Choose Mode:</label>
     <select id="mode" onchange="resetGame()">
       <option value="pvp">Player vs Player</option>
       <option value="cpu">Player vs Computer</option>
     </select>
+
+    <label for="difficulty">Difficulty:</label>
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+      <option value="asian">Asian</option>
+    </select>
   </div>
+
   <script src="ttt.js"></script>
 </body>
 </html>
