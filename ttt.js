@@ -1,6 +1,8 @@
 const boardEl = document.getElementById("board");
 const statusEl = document.getElementById("status");
 const modeSelect = document.getElementById("mode");
+const diffSelect = document.getElementById("difficulty");
+
 let board = Array(9).fill("");
 let currentPlayer = "X";
 let gameOver = false;
@@ -31,6 +33,7 @@ function handleClick(i) {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
   }
   render();
+
   if (!gameOver && currentPlayer === "O" && modeSelect.value === "cpu") {
     setTimeout(() => {
       const best = findBestMove();
@@ -105,15 +108,24 @@ function minimax(b, depth, isMax) {
   }
 }
 
+function getAiSkill() {
+  switch (diffSelect.value) {
+    case "easy": return 0.3;
+    case "medium": return 0.5;
+    case "hard": return 0.7;
+    case "asian": return 1.0;
+    default: return 0.5;
+  }
+}
+
 function findBestMove() {
   const emptyIndices = board.map((v, i) => v === "" ? i : null).filter(i => i !== null);
+  const skill = getAiSkill();
 
-  // 20% chance to make a random move
-  if (Math.random() < 0.2) {
+  if (Math.random() > skill) {
     return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   }
 
-  // 80% chance to play optimally
   let bestVal = -Infinity;
   let bestMove = -1;
   for (let i of emptyIndices) {
